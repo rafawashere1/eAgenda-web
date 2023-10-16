@@ -16,9 +16,9 @@ const routes: Routes = [
   {
     path: 'contatos',
     loadChildren: () =>
-      import('./views/contatos/contatos.module').then((m) => m.ContatosModule),
+      import('./views/contatos/contatos.module')
+        .then((m) => m.ContatosModule),
   },
-
   {
     path: 'compromissos',
     loadChildren: () =>
@@ -26,7 +26,6 @@ const routes: Routes = [
         (m) => m.CompromissosModule
       ),
   },
-
   {
     path: 'categorias',
     loadChildren: () =>
@@ -34,12 +33,18 @@ const routes: Routes = [
         (m) => m.CategoriasModule
       ),
   },
-
   {
     path: 'despesas',
     loadChildren: () =>
       import('./views/despesas/despesas.module').then(
         (m) => m.DespesasModule
+      ),
+  },
+  {
+    path: 'tarefas',
+    loadChildren: () =>
+      import('./views/tarefas/tarefas.module').then(
+        (m) => m.TarefasModule
       ),
   },
 ];
