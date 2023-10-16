@@ -1,0 +1,44 @@
+<app-line-loading *ngIf="isLoading"></app-line-loading>
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-10 col-lg-9 mx-auto mt-5">
+      <ul ngbNav #nav="ngbNav" [(activeId)]="activeId" class="nav-underline mb-4">
+      <li [ngbNavItem]="1" (click)="atualizarLista()">
+        <button ngbNavLink class="fs-1 text-primary">
+          Listar Contatos
+        </button>
+        <ng-template ngbNavContent>
+      <div class="d-grid d-md-flex gap-1 mt-5">
+        <a
+          [routerLink]="['/contatos/inserir']"
+          role="button"
+          class="btn btn-primary me-md-1"
+        >
+          <i class="pi pi-plus-circle me-2"></i>
+          Novo Contato
+        </a>
+      </div>
+          <div class="row mt-3 g-2">
+            <div class="col-12 col-md-6 col-lg-4" *ngFor="let contato of contatos">
+              <app-card-contato [contato]="contato"></app-card-contato>
+            </div>
+          </div>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="2" (click)="atualizarLista()">
+        <button ngbNavLink class="fs-1 text-primary">
+          Listar Favoritos
+        </button>
+        <ng-template ngbNavContent>
+          <div class="row mt-3 g-2">
+            <div class="col-12 col-md-6 col-lg-4" *ngFor="let contato of contatos">
+              <app-card-contato [contato]="contato"></app-card-contato>
+            </div>
+          </div>
+        </ng-template>
+      </li>
+    </ul>
+    <div [ngbNavOutlet]="nav"></div>
+    </div>
+  </div>
+</div>
