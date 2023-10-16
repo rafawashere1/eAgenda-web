@@ -10,7 +10,7 @@ import { CardContatoComponent } from './card-contato/card-contato.component';
 import 'src/app/extensions/form.group.extension';
 import { ContatosRoutingModule } from './contatos-routing.module';
 import { CoreModule } from 'src/app/core/core.module';
-import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbNavModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -26,6 +26,7 @@ import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
     ContatosRoutingModule,
     CoreModule,
     NgbNavModule,
+    NgbTooltipModule,
   ],
   providers: [
     ContatosService

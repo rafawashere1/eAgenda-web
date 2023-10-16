@@ -10,6 +10,7 @@ import { EditarDespesaComponent } from './editar-despesa/editar-despesa.componen
 import { ExcluirDespesaComponent } from './excluir-despesa/excluir-despesa.component';
 import { ListarDespesasComponent } from './listar-despesas/listar-despesas.component';
 import { DespesasService } from './services/despesas.service';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { DespesasService } from './services/despesas.service';
     DespesasRoutingModule,
     ReactiveFormsModule,
     NgSelectModule,
+    NgbTooltipModule,
     CategoriasModule
   ],
   providers: [

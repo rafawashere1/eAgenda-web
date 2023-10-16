@@ -10,6 +10,7 @@ import { ExcluirCategoriaComponent } from './excluir-categoria/excluir-categoria
 import { ReactiveFormsModule } from '@angular/forms';
 import { CategoriasService } from './services/categorias.service';
 import { CoreModule } from 'src/app/core/core.module';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { CoreModule } from 'src/app/core/core.module';
         CommonModule,
         CategoriasRoutingModule,
         ReactiveFormsModule,
+        NgbTooltipModule,
         CoreModule
     ]
 })

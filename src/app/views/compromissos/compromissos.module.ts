@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CompromissosService } from './services/compromissos.service';
 import { InserirCompromissoComponent } from './inserir-compromisso/inserir-compromisso.component';
@@ -23,6 +23,7 @@ import { CardCompromissoComponent } from './card-compromisso/card-compromisso.co
     CommonModule,
     CompromissosRoutingModule,
     NgbModule,
+    NgbTooltipModule,
     ReactiveFormsModule,
     ContatosModule
   ],
