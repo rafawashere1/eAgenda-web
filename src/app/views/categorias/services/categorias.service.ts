@@ -5,6 +5,7 @@ import { Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ListarCategoriaViewModel } from '../models/listar-categoria.view-model';
 import { VisualizarCategoriaViewModel } from '../models/visualizar-categoria.view-model';
+import { localStorageService } from 'src/app/core/auth/services/local-storage.service';
 
 @Injectable()
 export class CategoriasService {
@@ -13,11 +14,11 @@ export class CategoriasService {
   
     private httpOptions = {
       headers: new HttpHeaders({
-        'Authorization': `Bearer ${environment.API_KEY}`
+        'Authorization': `Bearer ${this.localStorageService.obterDadosLocaisSalvos()?.chave}`
       })
     };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private localStorageService: localStorageService) {}
 
   public inserir(categoria: FormsCategoriaViewModel): Observable<FormsCategoriaViewModel> {
     return this.http.post<any>(this.endpoint, categoria, this.httpOptions)

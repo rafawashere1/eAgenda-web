@@ -3,7 +3,7 @@ import { ListarContatoViewModel } from '../models/listar-contato.view-model';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { map } from 'rxjs';
-import { LocalStorageService } from '../services/local-storage.service';
+import { ContatoLocalStorageService } from '../services/local-storage.service';
 
 @Component({
   selector: 'app-listar-contatos',
@@ -15,7 +15,7 @@ export class ListarContatosComponent implements OnInit {
   isLoading: boolean;
   activeId: number = 1;
 
-  constructor(private route: ActivatedRoute, private toastrService: ToastrService, private localStorage: LocalStorageService) {
+  constructor(private route: ActivatedRoute, private toastrService: ToastrService, private localStorage: ContatoLocalStorageService) {
     this.contatos = new Array<ListarContatoViewModel>();
     this.isLoading = true;
    }

@@ -1,15 +1,14 @@
+import { TipoLocalCompromissoEnum } from './tipo-local-compromisso.enum';
+
 export type FormsCompromissoViewModel = {
   assunto: string;
-  tipoLocal: TipoLocal;
+  tipoLocal: TipoLocalCompromissoEnum;
   link: string;
   local: string;
+
   data: Date;
-  HoraInicio: string;
-  HoraTermino: string;
+  horaInicio: string;
+  horaTermino: string;
 
   contatoId?: string;
-}
-
-export enum TipoLocal {
-  Remoto, Presencial
-}
+};

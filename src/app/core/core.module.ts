@@ -4,8 +4,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { LineLoadingComponent } from './line-loading/line-loading.component';
-
-
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -15,11 +14,13 @@ import { LineLoadingComponent } from './line-loading/line-loading.component';
   imports: [
     CommonModule,
     RouterModule,
-    NgbCollapseModule
+    NgbCollapseModule,
+    AuthModule
   ],
   exports: [
     NavbarComponent,
-    LineLoadingComponent
+    LineLoadingComponent,
+    AuthModule
   ]
 })
 export class CoreModule { }

@@ -5,7 +5,8 @@ import { environment } from 'src/environments/environment';
 import { FormsContatoViewModel } from '../models/forms-contato-view-model';
 import { ListarContatoViewModel } from '../models/listar-contato.view-model';
 import { VisualizarContatoViewModel } from '../models/visualizar-contato.view-model';
-import { LocalStorageService } from './local-storage.service';
+import { ContatoLocalStorageService } from './local-storage.service';
+import { localStorageService } from 'src/app/core/auth/services/local-storage.service';
 
 @Injectable()
 export class ContatosService {
@@ -14,13 +15,13 @@ export class ContatosService {
 
   private httpOptions = {
     headers: new HttpHeaders({
-      'Authorization': `Bearer ${environment.API_KEY}`
+      'Authorization': `Bearer ${this.localStorageService.obterDadosLocaisSalvos()?.chave}`
     })
   };
 
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
+  constructor(private http: HttpClient, private contatoLocalStorageService: ContatoLocalStorageService, private localStorageService: localStorageService) {
     this.endpoint = 'https://e-agenda-web-api.onrender.com/api/contatos';
-    this.favoritos = this.localStorageService.carregarFavoritos();
+    this.favoritos = this.contatoLocalStorageService.carregarFavoritos();
   }
 
   

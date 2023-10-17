@@ -42,11 +42,13 @@ export class InserirCompromissoComponent implements OnInit{
       for (let erro of this.form.validate()) {
         this.toastrService.warning(erro);
     } 
-      console.log("a")
       return;
     }
 
+    console.log(this.form?.value);
+
     this.compromissosService.inserir(this.form?.value).subscribe(res => {
+      console.log(res)
       this.toastrService.success(`O compromisso "${res.assunto}" foi salvo com sucesso!`, 'Sucesso')
     });
 

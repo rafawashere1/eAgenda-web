@@ -1,10 +1,10 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { FormsCompromissoViewModel } from "../models/forms-compromisso.view-model";
-import { environment } from "src/environments/environment";
 import { Observable, catchError, map, throwError } from "rxjs";
 import { ListarCompromissoViewModel } from "../models/listar-compromisso.view-model";
 import { VisualizarCompromissoViewModel } from "../models/visualizar-compromisso.view-model";
+import { localStorageService } from "src/app/core/auth/services/local-storage.service";
 
 @Injectable()
 export class CompromissosService {
@@ -12,11 +12,11 @@ export class CompromissosService {
 
   private httpOptions = {
     headers: new HttpHeaders({
-      'Authorization': `Bearer ${environment.API_KEY}`
+      'Authorization': `Bearer ${this.localStorageService.obterDadosLocaisSalvos()?.chave}`
     })
   };
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private localStorageService: localStorageService) {
     this.endpoint = 'https://e-agenda-web-api.onrender.com/api/compromissos';
   }
 

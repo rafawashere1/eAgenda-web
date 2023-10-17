@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ListarContatoViewModel } from '../models/listar-contato.view-model';
-import { LocalStorageService } from '../services/local-storage.service';
+import { ContatoLocalStorageService } from '../services/local-storage.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -13,7 +13,7 @@ export class CardContatoComponent {
 
   // @Output() favoritar = new EventEmitter<any>();
 
-  constructor(private localStorageService: LocalStorageService, private toastrService: ToastrService) {
+  constructor(private localStorageService: ContatoLocalStorageService, private toastrService: ToastrService) {
 
   }
 

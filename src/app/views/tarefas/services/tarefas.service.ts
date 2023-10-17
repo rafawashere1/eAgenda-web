@@ -5,19 +5,20 @@ import { Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ListarTarefaViewModel } from '../models/listar-tarefa.view-model';
 import { VisualizarTarefaViewModel } from '../models/visualizar-tarefa.view-model';
+import { localStorageService } from 'src/app/core/auth/services/local-storage.service';
 
 @Injectable()
 export class TarefasService {
   private endpoint: string =
     'https://e-agenda-web-api.onrender.com/api/tarefas';
+  
+    private httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.localStorageService.obterDadosLocaisSalvos()?.chave}`
+      })
+    };
 
-  constructor(private http: HttpClient) { }
-
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Authorization': `Bearer ${environment.API_KEY}`
-    })
-  };
+  constructor(private http: HttpClient, private localStorageService: localStorageService) { }
 
   public inserir(tarefa: FormsTarefaViewModel): Observable<FormsTarefaViewModel> {
     return this.http.post<any>(this.endpoint, tarefa, this.httpOptions)

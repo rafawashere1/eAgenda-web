@@ -5,6 +5,7 @@ import { FormsDespesaViewModel } from '../models/forms-despesa.view-model';
 import { environment } from 'src/environments/environment';
 import { ListarDespesaViewModel } from '../models/listar-despesa.view-model';
 import { VisualizarDespesaViewModel } from '../models/visualizar-despesa.view-model';
+import { localStorageService } from 'src/app/core/auth/services/local-storage.service';
 
 @Injectable()
 export class DespesasService {
@@ -13,11 +14,11 @@ export class DespesasService {
   
     private httpOptions = {
       headers: new HttpHeaders({
-        'Authorization': `Bearer ${environment.API_KEY}`
+        'Authorization': `Bearer ${this.localStorageService.obterDadosLocaisSalvos()?.chave}`
       })
     };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private localStorageService: localStorageService) {}
 
   public inserir(despesa: FormsDespesaViewModel): Observable<FormsDespesaViewModel> {
     return this.http.post<any>(this.endpoint, despesa, this.httpOptions)

@@ -1,4 +1,3 @@
 export const environment = {
-  production: false,
-  API_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0NGU5YmQyMC0zZWQ1LTQ1MzMtYTdlZi1iMWYwOWJhNjVkMzgiLCJlbWFpbCI6InRpYWdvQGdtYWlsLmNvbSIsImdpdmVuX25hbWUiOiJUaWFnbyBTYW50aW5pIiwibmJmIjoxNjk3NDc2NzQ3LCJleHAiOjE2OTc1MDU1NDcsImlhdCI6MTY5NzQ3Njc0NywiaXNzIjoiZUFnZW5kYSIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3QifQ.ycEYTfFvlDJSquRVrTiKikwAPyjHZCA-Tu0Bw0w0C6g"
+  production: false
 };

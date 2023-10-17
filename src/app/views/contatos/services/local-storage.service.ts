@@ -4,7 +4,7 @@ import { ListarContatoViewModel } from '../models/listar-contato.view-model';
 @Injectable({
   providedIn: 'root'
 })
-export class LocalStorageService {
+export class ContatoLocalStorageService {
   private readonly localStorage: Storage;
   private readonly chave: string = 'eAgenda_favoritos@1.0.0';
 
