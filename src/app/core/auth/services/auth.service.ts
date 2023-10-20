@@ -1,11 +1,11 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, catchError, map, tap, throwError } from "rxjs";
-import { environment } from "src/environments/environment";
+import { BehaviorSubject, Observable, catchError, map, tap, throwError } from "rxjs";
 import { TokenViewModel } from "../models/token.view-model";
 import { RegistrarUsuarioViewModel } from "../models/registrar-usuario.view-model";
 import { localStorageService } from "./local-storage.service";
 import { AutenticarUsuarioViewModel } from "../models/autenticar-usuario.view-model";
+import { UsuarioTokenViewModel } from "../models/usuario-token.view-model";
 
 @Injectable()
 export class AuthService {
@@ -14,31 +14,70 @@ export class AuthService {
   
   private endpointRegistrar: string = this.endpoint + '/registrar'
   private endpointLogin: string = this.endpoint + '/autenticar';
+  private endpointLogout: string = this.endpoint + '/sair';
+
+  private usuarioAutenticado: BehaviorSubject<UsuarioTokenViewModel | undefined>;
+
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Authorization': `Bearer ${this.localStorage.obterDadosLocaisSalvos()?.chave}`
+    })
+  };
 
   constructor(private http: HttpClient, private localStorage: localStorageService) {
-  
+    this.usuarioAutenticado = new BehaviorSubject<UsuarioTokenViewModel | undefined>(undefined)
+  }
+
+  public obterUsuarioAutenticado() {
+    return this.usuarioAutenticado.asObservable();
   }
   
   public registrar(usuario: RegistrarUsuarioViewModel): Observable<TokenViewModel> {
     return this.http.post<any>(this.endpointRegistrar, usuario)
-      .pipe(map(res => res.dados),
-        tap({
-          next: dados => this.localStorage.salvarDadosLocaisUsuario(dados),
-        }),
-        catchError((err) => this.processarErroHttp(err)));
-  }
-
-  public login(
-    usuario: AutenticarUsuarioViewModel
-  ): Observable<TokenViewModel> {
-    return this.http.post<any>(this.endpointLogin, usuario).pipe(
-      map((res) => res.dados),
-
+      .pipe(map((res) => res.dados),
       tap((dados: TokenViewModel) =>
         this.localStorage.salvarDadosLocaisUsuario(dados)
       ),
       catchError((err) => this.processarErroHttp(err))
     );
+  }
+
+  public login(usuario: AutenticarUsuarioViewModel): Observable<TokenViewModel> {
+    return this.http.post<any>(this.endpointLogin, usuario)
+      .pipe(map((res) => res.dados),
+      tap((dados: TokenViewModel) =>
+        this.localStorage.salvarDadosLocaisUsuario(dados)
+      ),
+      tap((dados: TokenViewModel) => this.notificarLogin(dados.usuarioToken)),
+      catchError((err) => this.processarErroHttp(err))
+    );
+  }
+
+  public logout(): Observable<any> {
+    return this.http
+      .post<any>(this.endpointLogout, {}, this.httpOptions)
+      .pipe(
+        tap(() => this.notificarLogout()),
+        tap(() => this.localStorage.limparDadosLocais())
+      );
+  }
+
+  public logarUsuarioSalvo(): void {
+    const dados = this.localStorage.obterDadosLocaisSalvos();
+
+    if (!dados) return;
+
+    const tokenEstaValido: boolean = new Date(dados.dataExpiracao) > new Date();
+
+    if (tokenEstaValido) this.notificarLogin(dados.usuarioToken);
+  }
+
+  private notificarLogin(usuario: UsuarioTokenViewModel): void {
+    this.usuarioAutenticado.next(usuario);
+  }
+
+  private notificarLogout(): void {
+    this.usuarioAutenticado.next(undefined);
   }
 
   private processarErroHttp(erro: HttpErrorResponse) {

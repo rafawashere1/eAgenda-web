@@ -45,8 +45,6 @@ export class InserirCompromissoComponent implements OnInit{
       return;
     }
 
-    console.log(this.form?.value);
-
     this.compromissosService.inserir(this.form?.value).subscribe(res => {
       console.log(res)
       this.toastrService.success(`O compromisso "${res.assunto}" foi salvo com sucesso!`, 'Sucesso')

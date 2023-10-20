@@ -18,4 +18,8 @@ export class localStorageService {
 
     return JSON.parse(jsonString) as TokenViewModel;
   }
+
+  public limparDadosLocais(): void {
+    localStorage.setItem(this.chaveLocalStorage, '');
+  }
 }
