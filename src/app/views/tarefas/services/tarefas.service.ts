@@ -1,55 +1,47 @@
 import { Injectable } from '@angular/core';
 import { FormsTarefaViewModel } from '../models/forms-tarefa.view-model';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, map, throwError } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { ListarTarefaViewModel } from '../models/listar-tarefa.view-model';
 import { VisualizarTarefaViewModel } from '../models/visualizar-tarefa.view-model';
-import { localStorageService } from 'src/app/core/auth/services/local-storage.service';
 
 @Injectable()
 export class TarefasService {
   private endpoint: string =
     'https://e-agenda-web-api.onrender.com/api/tarefas';
-  
-    private httpOptions = {
-      headers: new HttpHeaders({
-        'Authorization': `Bearer ${this.localStorageService.obterDadosLocaisSalvos()?.chave}`
-      })
-    };
 
-  constructor(private http: HttpClient, private localStorageService: localStorageService) { }
+  constructor(private http: HttpClient) { }
 
   public inserir(tarefa: FormsTarefaViewModel): Observable<FormsTarefaViewModel> {
-    return this.http.post<any>(this.endpoint, tarefa, this.httpOptions)
+    return this.http.post<any>(this.endpoint, tarefa)
       .pipe(map((res) => res.dados),
       catchError((err: HttpErrorResponse) => this.processarErroHttp(err)));
   }
 
   public editar(id: string, tarefa: FormsTarefaViewModel) {
-    return this.http.put<any>(`${this.endpoint}/${id}`, tarefa, this.httpOptions)
+    return this.http.put<any>(`${this.endpoint}/${id}`, tarefa)
       .pipe(map((res) => res.dados),
       catchError((err: HttpErrorResponse) => this.processarErroHttp(err)));
   }
 
   public excluir(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.endpoint}/${id}`, this.httpOptions);
+    return this.http.delete<any>(`${this.endpoint}/${id}`);
   }
 
   public selecionarTodos(): Observable<ListarTarefaViewModel[]> {
-    return this.http.get<any>(this.endpoint, this.httpOptions)
+    return this.http.get<any>(this.endpoint)
       .pipe(map((res) => res.dados),
       catchError((err: HttpErrorResponse) => this.processarErroHttp(err)));
   }
 
   public selecionarPorId(id: string): Observable<FormsTarefaViewModel> {
-    return this.http.get<any>(`${this.endpoint}/${id}`, this.httpOptions)
+    return this.http.get<any>(`${this.endpoint}/${id}`)
       .pipe(map((res) => res.dados),
       catchError((err: HttpErrorResponse) => this.processarErroHttp(err)));
   }
 
   public selecionarTarefaCompletaPorId(id: string): Observable<VisualizarTarefaViewModel> {
-    return this.http.get<any>(`${this.endpoint}/visualizacao-completa/${id}`, this.httpOptions)
+    return this.http.get<any>(`${this.endpoint}/visualizacao-completa/${id}`)
       .pipe(map((res) => res.dados),
       catchError((err: HttpErrorResponse) => this.processarErroHttp(err)));
   }

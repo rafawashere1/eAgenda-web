@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule, inject } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -7,10 +7,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
 import { CoreModule } from './core/core.module';
 import { DashboardModule } from './views/dashboard/dashboard.module';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { RegistroModule } from './views/registro/registro.module';
 import { LoginModule } from './views/login/login.module';
 import { AuthService } from './core/auth/services/auth.service';
+import { httpTokenInterception } from './core/auth/services/http-token.interceptor';
 
 function logarUsuarioSalvoFactory(authService: AuthService) {
   return () => authService.logarUsuarioSalvo();
@@ -25,7 +26,6 @@ function logarUsuarioSalvoFactory(authService: AuthService) {
     BrowserAnimationsModule,
     AppRoutingModule,
     NgbModule,
-    HttpClientModule,
     ToastrModule.forRoot({
       timeOut: 4000,
       positionClass: 'toast-bottom-right',
@@ -46,6 +46,7 @@ function logarUsuarioSalvoFactory(authService: AuthService) {
       deps: [AuthService],
       multi: true,
     },
+    provideHttpClient(withInterceptors([httpTokenInterception]))
   ],
   bootstrap: [AppComponent]
 })
